@@ -1,26 +1,48 @@
-var ship, sea,shipImg,seaImg;
+var track,trackImg;
+var jake,jakeImg;
+var invisibleGround1, invisibleGround2;
 function preload(){
-  seaImg = loadImage("sea.png");
-shipImg = loadAnimation("ship-1.png","ship-2.png","ship-3.png","ship-4.png");
+  //pre-load images
+  trackImg = loadImage("path.png");
+  jakeImg = loadAnimation("Runner-1.png", "Runner-2.png");
+
 }
 
+
 function setup(){
-  createCanvas(1200,400);
-  sea = createSprite(15,180,400,10);
-  sea.addImage(seaImg);
-  ship = createSprite(800,250,60,60);
-  ship.addAnimation("moving",shipImg);
-  ship.scale=0.4
+  createCanvas(400,400);
+  //create sprites here
+  track = createSprite(15,375,400,10);
+  track.addImage(trackImg);
+
+  jake = createSprite(200,360,20,20);
+  jake.addAnimation("running", jakeImg);
+  jake.scale=0.075;
+  
+    track.y=track.height/2;
+  track.velocityY=4;
+
+  invisibleGround1 = createSprite(17,375,10,800);
+  invisibleGround1.visible=false;
+
+  invisibleGround2 = createSprite(383,375,10,800);
+  invisibleGround2.visible=false;
 }
 
 function draw() {
-  background("blue")
-  console.log=ship.y
-  sea.velocityX=-4
-  if(sea.x<0){
-    sea.x=sea.width/2
+  background("black");
+  console.log(jake.x);
+  track.velocityY=4;
+  
+  jake.x=mouseX;
+
+  jake.collide(invisibleGround1);
+  jake.collide(invisibleGround2);
+
+  if (track.y>400){
+    track.y= height/2
   }
   
+  drawSprites();
 
- drawSprites();
 }

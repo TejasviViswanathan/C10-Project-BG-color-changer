@@ -1,48 +1,68 @@
-var track,trackImg;
-var jake,jakeImg;
-var invisibleGround1, invisibleGround2;
+var garden,rabbit;
+var gardenImg,rabbitImg;
+
+
 function preload(){
-  //pre-load images
-  trackImg = loadImage("path.png");
-  jakeImg = loadAnimation("Runner-1.png", "Runner-2.png");
+  gardenImg = loadImage("garden.png");
+  rabbitImg = loadImage("rabbit.png");
 
 }
-
 
 function setup(){
-  createCanvas(400,400);
-  //create sprites here
-  track = createSprite(15,375,400,10);
-  track.addImage(trackImg);
-
-  jake = createSprite(200,360,20,20);
-  jake.addAnimation("running", jakeImg);
-  jake.scale=0.075;
   
-    track.y=track.height/2;
-  track.velocityY=4;
+  createCanvas(400,400);
+  
+// Moving background
+garden=createSprite(200,200);
+garden.addImage(gardenImg);
 
-  invisibleGround1 = createSprite(17,375,10,800);
-  invisibleGround1.visible=false;
-
-  invisibleGround2 = createSprite(383,375,10,800);
-  invisibleGround2.visible=false;
+//creating boy running
+rabbit = createSprite(180,340,30,30);
+rabbit.scale =0.09;
+rabbit.addImage(rabbitImg);
 }
+
 
 function draw() {
-  background("black");
-  console.log(jake.x);
-  track.velocityY=4;
+  background(0);
   
-  jake.x=mouseX;
+  edges= createEdgeSprites();
+  rabbit.collide(edges);
 
-  jake.collide(invisibleGround1);
-  jake.collide(invisibleGround2);
+  rabbit.x = mouseX
 
-  if (track.y>400){
-    track.y= height/2
-  }
-  
+  console.log("Bigger " + "Square " + "is " + "Leaf")
+
   drawSprites();
+  spawnApples();
+  spawnLeaves();
+}
+
+function spawnApples(){
+if (frameCount%60===0){
+var apple = createSprite(random(50,350),40,10,10);
+apple.velocityY=3;
+apple.lifetime=80;
 
 }
+}
+
+function spawnLeaves(){
+  if(frameCount%60===0){
+    var leaf = createSprite(random(100,275), 40, 20, 20);
+    leaf.velocityY=4;
+    leaf.lifetime=80;
+  }
+}
+
+
+  var rand = Math.round(random(1,2));
+
+  if (frameCount % 80 == 0){
+  if (rand == 1){
+    spawnApples();
+
+    
+  }
+  else spawnLeaves();
+  }
